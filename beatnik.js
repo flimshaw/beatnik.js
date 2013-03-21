@@ -27,4 +27,5 @@ Beatnik.prototype.getPoem = function() {
 // eventually, this is what I want to run
 var b = new Beatnik();
 
+
 console.log(b.getPoem());

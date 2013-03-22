@@ -300,8 +300,45 @@ Let's start with that.  How would we structure this with code?
 
 It seems prudent that something like getPoem(style) is the way we'd want to interact with this.  We want to instantiate a particular type of object that will expose certain interfaces to us to modify.  If this were a machine, this might be a rack mount where you'd build a bunch of different modules that all had standardized DICTIONARY inputs and POETRY outputs.  We wanna put words into it, and get poems out of it.  It should expose a few standardized interfaces to us that it chooses.
 
-But how should the heirarchy work?  What should our most granular type of poem do?  Some pseudo code:
+But how should the heirarchy work?  What should our most granular type of poem do?  Let's sketch out our classes a bit more:
 
+    // a poem class, no input params as of yet
+    function Poem() {
+        // a poem has a dictionary to query for words
+        var dict = new Dictionary(["dog", "cat", "dinosaur"]);
+        // and an array to store things in temporarily
+        var poem = [];
+    }
 
+Our poem needs an array to store its words and sentences, and a dictionary of words to work with.  Now, in real life, poems don't know anything about the words they contain, it seems like our poem should query our Dictionary object when it needs to find words that match the criteria it needs.  So, for our default poem, let's recreate the simple grammatical algorithms used by the Beatnik Box.  Doing things in an object oriented way means that we don't lose our focus on the details of how some other object will perform our task for us.  Initially, pretend there is a Dictionary object that will do anything we want it to, and write some code that interacts with it in that way.  Later, we'll write some functions that do whatever we imagined.
 
+So!  Let's make a generatePoem function, just roughly now, premature optimization is the devil:
+
+Poem.prototype.generatePoem = function() {
+
+    // a random number of sentences between 3 and 13
+    var poemLength = Math.floor(Math.random() * 10 + 3);
+
+    // a random maximum length for each line between 1 and 6 words
+    var lineMaxLength = Math.floor(Math.random() * 5 + 1);
+
+    // for each line in our poem
+    for(var line = 0; line < poemLength; line++) {
+        
+        // initialize an array to hold our words up to as large as our max length
+        var sentence = new Array(Math.floor(Math.random() * lineMaxLength + 1));
+
+        // for each word in our line
+        for(var word = 0; word < sentence.length; word++) {
+
+            // grab a valid word from our dictionary
+            sentence[word] = new Word();
+        }
+    }
+
+}
+
+OK, lets' stop here.  This is the gist of how writing poems should work from the poem's point of view.  It just wants to fill an array with words.  The trick to recreate the Beatnik algorithm is to choose compatible words based on the previous word in the sentence.  So, our part of speech chooser needs access to our sentence, and our position in it.  Hmmm.  What's the best way to decouple this behavior to make exciting combinations of rules possible?
+
+Premature optimization is the devil!  While it's good to be mindful of how a thing will scale eventually, when you're writing your first lines of code, it's more important to get something working that you can start to play with.  It's a careful balance as a programmer.
 

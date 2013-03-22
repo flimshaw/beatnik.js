@@ -65,11 +65,12 @@ function Word(str) {
 
 	this.word = str;
 
-	init();
+	this.init();
 }
 
 Word.prototype.init = function() {
-	
+	this.getPOS();
+	this.getRhymingType();
 }
 
 // and finally, a Beatnik class

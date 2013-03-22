@@ -33,7 +33,6 @@ function Dictionary(wordList) {
 
 	// make a self var to help us get here later
 	this.words = [];
-	this.TEST = "TESTING";
 
 	// make a nice exception to help us later
 	if(wordList == undefined) {
@@ -42,6 +41,8 @@ function Dictionary(wordList) {
 
 	// run our initialization function
 	this.init(wordList);
+
+	console.log(this.words);
 }
 
 
@@ -62,9 +63,13 @@ Dictionary.prototype.init = function(wordList) {
 
 function Word(str) {
 
-	var pos = "VERB";
-	return pos;
+	this.word = str;
 
+	init();
+}
+
+Word.prototype.init = function() {
+	
 }
 
 // and finally, a Beatnik class

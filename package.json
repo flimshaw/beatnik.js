@@ -1,0 +1,31 @@
+{
+  "name": "beatnik.js",
+  "version": "0.0.0",
+  "description": "the Beatnik poetry generation library",
+  "main": "beatnik.js",
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.6",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "underscore": "~1.4.4"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/flimshaw/beatnik.js.git"
+  },
+  "keywords": [
+    "poetry",
+    "grammar",
+    "js"
+  ],
+  "author": "Charlie Hoey",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "df44b87ced48d5e53fdc61dbea809c8facf40def"
+}

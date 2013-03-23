@@ -340,5 +340,4 @@ Poem.prototype.generatePoem = function() {
 
 OK, lets' stop here.  This is the gist of how writing poems should work from the poem's point of view.  It just wants to fill an array with words.  The trick to recreate the Beatnik algorithm is to choose compatible words based on the previous word in the sentence.  So, our part of speech chooser needs access to our sentence, and our position in it.  Hmmm.  What's the best way to decouple this behavior to make exciting combinations of rules possible?
 
-Premature optimization is the devil!  While it's good to be mindful of how a thing will scale eventually, when you're writing your first lines of code, it's more important to get something working that you can start to play with.  It's a careful balance as a programmer.
-
+Premature optimization is the devil!  While it's good to be mindful of how a thing will scale eventually, when you're writing your first lines of code, it's more important to get something working that you can start to play with.  It's a careful balance as a programmer not to optimize too early, lest you begin optimizing and never actually produce code that compiles.

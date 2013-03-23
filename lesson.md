@@ -344,4 +344,20 @@ Premature optimization is the devil!  While it's good to be mindful of how a thi
 
 3.23.13 6:33pm - updates
 
-OK, this is getting unwieldy already.  Let's implement some basic require.js in here, so we can run this in browser
+OK, this is getting unwieldy already.  Let's split this into multiple files so we can work with it more easily.
+
+OK, that's better, I did a little more cleanup as well, and now we're printing out things that look sort of like poems.
+
+~/code/beatnik.js$ node main.js
+Hello Hello Hello Hello Hello.
+Hello Hello Hello Hello Hello.
+Hello Hello.
+Hello Hello Hello Hello Hello.
+Hello Hello Hello Hello.
+Hello.
+Hello Hello Hello Hello.
+Hello Hello.
+Hello Hello Hello.
+Hello Hello Hello Hello.
+
+Now we just need to pick random words from a dictionary.  

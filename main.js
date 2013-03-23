@@ -1,5 +1,5 @@
 var Poem = require("./Poem.js");
 
-var x = new Poem();
+var p = new Poem();
 
-console.log(x.printBuffer());
+p.printBuffer();

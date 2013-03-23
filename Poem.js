@@ -42,20 +42,24 @@ Poem.prototype.generatePoem = function() {
 // print out our poem buffer
 Poem.prototype.printBuffer = function() {
 	// a string to hold all our words
-	var str;
+	var str = "";
 
 	// loop through each word and make a string of it
 	_.each(this.poem, function(sentence) {
-		_.each(sentence, function(word) {
-			str += word + " ";
-			if(word == sentence.length) {
-				str += "\n";
+		_.each(sentence, function(word, i) {
+			if(word !== undefined) {
+				str += word;
+				if(i == sentence.length - 1) {
+					str += ".\n";
+				} else {
+					str += " ";
+				}				
 			}
 		});
 	});
 
 	// return the rendered string
-	return(str);
+	console.log(str);
 }
 
 module.exports = Poem;

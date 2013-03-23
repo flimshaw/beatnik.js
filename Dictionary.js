@@ -15,7 +15,6 @@ var Dictionary = function(wordList) {
 	// run our initialization function
 	this.init(wordList);
 
-	console.log(this.words);
 }
 
 

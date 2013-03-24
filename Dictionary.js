@@ -2,6 +2,10 @@ var _ = require('underscore');
 var Word = require('./Word.js');
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
+var fs = require('fs');
+
+var natural = require('natural'),
+  tokenizer = new natural.WordTokenizer();
 
 // database testing
 var mysql      = require('mysql');
@@ -17,6 +21,8 @@ connection.connect();
 // a dictionary class that simply takes an array of words and allows you to make queries about them
 var Dictionary = function(wordList) {
 
+	var wordList = fs.readFileSync(wordList).toString().split("\n");
+
 	// make a self var to help us get here later
 	this.words = [];
 	this.wordList = wordList;
@@ -26,6 +32,9 @@ var Dictionary = function(wordList) {
 		wordList = ["dog", "cat", "hysteria"];
 	}
 
+	// local place to store words, gotta be a better way to do this
+	this.scratchList = [];
+
 	// run our initialization function
 	this.setup(wordList);
 }
@@ -33,7 +42,20 @@ var Dictionary = function(wordList) {
 // extend the EventEmitter class using our Radio class
 util.inherits(Dictionary, EventEmitter);
 
+Dictionary.prototype.wordExists = function(newWord) {
+	var w = _.find(this.scratchList, function(word) {
+		return word == newWord;
+	});
+	return w;
+}
+
 Dictionary.prototype.addWord = function(word) {
+
+	if(this.wordExists(word)) {
+		return true;
+	} else {
+		this.scratchList.push(word);
+	}
 
 	var w = new Word(word);
 	var self = this;
@@ -71,9 +93,15 @@ Dictionary.prototype.getWord = function(pos) {
 Dictionary.prototype.setup = function(wordList) {
 
 	var self = this;
-	// loop through all our words and generate a Word object for them
-	_.each(wordList, function(word) {
-		self.addWord(word);
+
+	// loop through every line in our txt file
+	_.each(wordList, function(sentence) {
+		var words = tokenizer.tokenize(sentence);
+		_.each(words, function(word) {
+			if(word.length > 2) {
+				self.addWord(word);
+			}
+		});
 	});
 	
 }

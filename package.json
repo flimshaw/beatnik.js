@@ -9,7 +9,9 @@
     "grunt-contrib-nodeunit": "~0.1.2",
     "underscore": "~1.4.4",
     "mysql-native": "~0.4.7",
-    "mysql": "~2.0.0-alpha7"
+    "mysql": "~2.0.0-alpha7",
+    "natural": "~0.1.19",
+    "WNdb": "~3.0.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1"

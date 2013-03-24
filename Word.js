@@ -1,12 +1,8 @@
 var Word = function(str) {
 
 	this.word = str;
+	this.pos = false;
 
-	this.init();
-}
-
-Word.prototype.init = function() {
-	
 }
 
 module.exports = Word;

@@ -1,5 +1,7 @@
 var _ = require("underscore");
 var Dictionary = require("./Dictionary.js");
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
 
 // a poem class, no input params as of yet
 function Poem() {
@@ -8,9 +10,18 @@ function Poem() {
 	// and an array to store things in temporarily
 	this.poem = [];
 
-	// write our poem
-	this.generatePoem();
+	var self = this;
+
+	// when our dictionary has loaded all its words
+	this.dict.on('dictLoaded', function(msg) {
+		self.generatePoem();
+		self.emit('poemReady');
+	});
+	
 }
+
+// extend the EventEmitter class using our Radio class
+util.inherits(Poem, EventEmitter);
 
 // poem generation method
 Poem.prototype.generatePoem = function() {
@@ -31,7 +42,7 @@ Poem.prototype.generatePoem = function() {
         for(var word = 0; word < sentence.length; word++) {
 
             // grab a valid word from our dictionary
-            sentence[word] = this.dict.getWord();
+            sentence[word] = this.dict.getWord('n');
         }
 
         this.poem.push(sentence);

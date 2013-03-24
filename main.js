@@ -1,5 +1,16 @@
+var events = require('events');
+
+var eventEmitter = new events.EventEmitter();
+
+eventEmitter.on('dictDone', function(message){
+    console.log(message);
+});
+
 var Poem = require("./Poem.js");
 
 var p = new Poem();
 
-p.printBuffer();
+p.on('poemReady', function() {
+	p.printBuffer();
+});
+

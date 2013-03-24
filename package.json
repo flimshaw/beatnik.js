@@ -7,7 +7,9 @@
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.6",
     "grunt-contrib-nodeunit": "~0.1.2",
-    "underscore": "~1.4.4"
+    "underscore": "~1.4.4",
+    "mysql-native": "~0.4.7",
+    "mysql": "~2.0.0-alpha7"
   },
   "devDependencies": {
     "grunt": "~0.4.1"

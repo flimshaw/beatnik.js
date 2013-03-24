@@ -10,7 +10,7 @@ var Poem = require("./Poem.js");
 
 var p = new Poem();
 
-p.on('poemReady', function() {
-	p.printBuffer();
+p.on('ready', function() {
+	console.log(p.getPoem());
 });
 

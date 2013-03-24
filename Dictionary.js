@@ -73,9 +73,10 @@ Dictionary.prototype.tagWords = function() {
 			// get our word record and tag the pos for it
 			self.words.push(new Word(row.word, row.ss_type));
 		});
+		
 		// we're done
-		self.emit('dictLoaded');
 		connection.end();
+		self.emit('dictLoaded');
 	});
 
 }
@@ -91,9 +92,9 @@ Dictionary.prototype.getWordByPos = function(pos) {
 		return word.pos == pos;
 	});
 	if(w !== undefined) {
-		return w.word;
+		return w;
 	} else {
-		return "mustard";
+		return { word: "mustard", pos: "n" };
 	}
 }
 
@@ -111,6 +112,7 @@ Dictionary.prototype.setup = function(wordList) {
 		});
 	});
 
+	// tag all our words now that we've listed them all
 	self.tagWords();
 	
 }

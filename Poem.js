@@ -17,7 +17,7 @@ function Poem() {
 
 	// when our dictionary has loaded all its words
 	this.dict.on('dictLoaded', function() {
-		console.log('Ready.');
+		self.emit('ready');
 	});
 }
 
@@ -43,26 +43,54 @@ Poem.prototype.generatePoem = function() {
         for(var word = 0; word < sentence.length; word++) {
 
             // grab a valid word from our dictionary
-            sentence[word] = this.dict.getWordByPos('n');
+            sentence[word] = this.pickWord(sentence, word);
         }
 
         this.poem.push(sentence);
     }
 
-	this.emit('poemReady');
-
 }
 
+// public function for getting a poem
+Poem.prototype.getPoem = function() {
+	this.generatePoem();
+	return this.getBuffer();
+}
+
+// get compatible parts of speech for the given prior word
+Poem.prototype.getCompatiblePos = function(pos) {
+	switch(pos) {
+		// verbs can modify nouns and adjectives
+		case 'v':
+			return ['n', 'a'][_.random(0, 1)];
+			break;
+		// adjectives can modify nouns
+		case 'a':
+			return 'n';
+			break;
+		// adverbs can modify verbs, adverbs or adjectives
+		case 'r':
+			return ['v', 'a', 'r'][_.random(0, 2)];
+			break;
+		// nouns can be followed by any non noun
+		case 'n':
+			return ['v', 'a', 'r'][_.random(0, 2)];
+			break;
+	}
+}
 // rules for getting this word
 Poem.prototype.pickWord = function(sentence, idx) {
 	// if we're the first word, pick whatever we want
 	if(idx == 0) {
-
+		return this.dict.getWordByPos(posArray[Math.floor(Math.random()*posArray.length)]);
+	} else {
+		return this.dict.getWordByPos(this.getCompatiblePos(sentence[idx - 1].pos));
 	}
+
 }
 
 // print out our poem buffer
-Poem.prototype.printBuffer = function() {
+Poem.prototype.getBuffer = function() {
 	// a string to hold all our words
 	var str = "";
 
@@ -70,7 +98,7 @@ Poem.prototype.printBuffer = function() {
 	_.each(this.poem, function(sentence) {
 		_.each(sentence, function(word, i) {
 			if(word !== undefined) {
-				str += word;
+				str += word.word;
 				if(i == sentence.length - 1) {
 					str += "\n";
 				} else {
@@ -81,7 +109,7 @@ Poem.prototype.printBuffer = function() {
 	});
 
 	// return the rendered string
-	console.log(str);
+	return str;
 }
 
 module.exports = Poem;

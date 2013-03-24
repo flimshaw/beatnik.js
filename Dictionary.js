@@ -37,10 +37,16 @@ Dictionary.prototype.addWord = function(word) {
 
 	var w = new Word(word);
 	var self = this;
+	var sql = "select ss_type from wn_synset WHERE word = " + connection.escape(word) + " ORDER BY tag_count DESC LIMIT 1;";
 
-	connection.query("select ss_type from wn_synset WHERE word = '" + word + "' ORDER BY tag_count DESC LIMIT 1;", function(err, rows, fields) {
+	connection.query(sql, function(err, rows, fields) {
 		if (err) throw err;
-	  	w.pos = rows[0].ss_type;
+		if(rows.length > 0) {
+			w.pos = rows[0].ss_type;
+		} else {
+			w.pos = "x";
+		}
+	  	
   		// add check for duplicates here
 		self.words.push(w);
 		if(self.words.length == self.wordList.length) {

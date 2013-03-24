@@ -2,11 +2,16 @@ var _ = require("underscore");
 var Dictionary = require("./Dictionary.js");
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
+var fs = require('fs');
+
 
 // a poem class, no input params as of yet
 function Poem() {
+
+	var wordList = fs.readFileSync('wordlist.txt').toString().split("\n");
+
 	// a poem has a dictionary to query for words
-	this.dict = new Dictionary(["dog", "cat", "dinosaur"]);
+	this.dict = new Dictionary(wordList);
 	// and an array to store things in temporarily
 	this.poem = [];
 

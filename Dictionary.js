@@ -57,29 +57,36 @@ Dictionary.prototype.addWord = function(word) {
 		this.scratchList.push(word);
 	}
 
-	var w = new Word(word);
+}
+
+Dictionary.prototype.tagWords = function() {
+
+	// make a ref back to our object
 	var self = this;
-	var sql = "select ss_type from wn_synset WHERE word = " + connection.escape(word) + " ORDER BY tag_count DESC LIMIT 1;";
+
+	// write our sql query for the word
+	var sql = "select word, ss_type, max(tag_count) as max_tag from wn_synset WHERE word IN (" + connection.escape(this.scratchList) + ") GROUP BY word;";
 
 	connection.query(sql, function(err, rows, fields) {
 		if (err) throw err;
-		if(rows.length > 0) {
-			w.pos = rows[0].ss_type;
-		} else {
-			w.pos = "x";
-		}
-	  	
-  		// add check for duplicates here
-		self.words.push(w);
-		if(self.words.length == self.wordList.length) {
-			self.emit('dictLoaded');
-			connection.end();
-		}
+		_.each(rows, function(row) {
+			// get our word record and tag the pos for it
+			self.words.push(new Word(row.word, row.ss_type));
+		});
+		// we're done
+		self.emit('dictLoaded');
+		connection.end();
 	});
 
 }
 
-Dictionary.prototype.getWord = function(pos) {
+Dictionary.prototype.getWord = function(word) {
+	return _.find(this.words, function(item) {
+		return item.word == word;
+	});
+}
+
+Dictionary.prototype.getWordByPos = function(pos) {
 	var w = _.find(_.shuffle(this.words), function(word) {
 		return word.pos == pos;
 	});
@@ -103,6 +110,8 @@ Dictionary.prototype.setup = function(wordList) {
 			}
 		});
 	});
+
+	self.tagWords();
 	
 }
 

@@ -1,7 +1,7 @@
-var Word = function(str) {
+var Word = function(str, pos) {
 
 	this.word = str;
-	this.pos = false;
+	this.pos = pos;
 
 }
 

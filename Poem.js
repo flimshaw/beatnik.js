@@ -17,7 +17,7 @@ function Poem() {
 
 	// when our dictionary has loaded all its words
 	this.dict.on('dictLoaded', function() {
-		self.generatePoem();
+		console.log('Ready.');
 	});
 }
 
@@ -43,7 +43,7 @@ Poem.prototype.generatePoem = function() {
         for(var word = 0; word < sentence.length; word++) {
 
             // grab a valid word from our dictionary
-            sentence[word] = this.dict.getWord('n');
+            sentence[word] = this.dict.getWordByPos('n');
         }
 
         this.poem.push(sentence);
